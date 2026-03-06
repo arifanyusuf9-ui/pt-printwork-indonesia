@@ -1,6 +1,6 @@
-// =====================================================
 // PT PRINTWORK MULTIGRAPH INDONESIA
 // Awwwards-Level Javascript Integration
+// v1.1.2 - Deploy: 2026-03-06
 // =====================================================
 
 document.addEventListener('DOMContentLoaded', () => {
