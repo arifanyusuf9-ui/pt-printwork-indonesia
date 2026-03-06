@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Syne:wght@400..800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -67,34 +67,43 @@
       <div class="hero-narrative">
         <!-- Slide 1 -->
         <div class="narrative-slide active" data-slide="1">
-          <p class="hero-motto">PT Printwork Multigraph Indonesia — Perusahaan percetakan & desain premium selama lebih
-            dari 10 tahun.
-          </p>
-          <h1 class="hero-tagline">
-            Dimana ide menjadi nyata.
-          </h1>
-          <div class="hero-cta">
-            <a href="#contact" class="btn btn-primary primary-glow">Hubungi Kami</a>
+          <div class="hero-content-glass">
+            <p class="hero-motto">PT Printwork Multigraph Indonesia — Perusahaan percetakan & desain premium selama
+              lebih
+              dari 10 tahun.
+            </p>
+            <h1 class="hero-tagline">
+              Dimana ide menjadi nyata.
+            </h1>
+            <div class="hero-cta">
+              <a href="#contact" class="btn btn-primary primary-glow">Hubungi Kami</a>
+            </div>
           </div>
         </div>
 
         <!-- Slide 2 -->
         <div class="narrative-slide" data-slide="2">
-          <p class="hero-motto">"The art of giving the best, to create a strong belief" — Seni memberikan yang terbaik,
-            untuk menciptakan kepercayaan yang kuat.</p>
-          <h1 class="hero-tagline">
-            Kualitas Premium. Standar Internasional.
-          </h1>
+          <div class="hero-content-glass">
+            <p class="hero-motto">"The art of giving the best, to create a strong belief" — Seni memberikan yang
+              terbaik,
+              untuk menciptakan kepercayaan yang kuat.</p>
+            <h1 class="hero-tagline">
+              Kualitas Premium. Standar Internasional.
+            </h1>
+          </div>
         </div>
 
         <!-- Slide 3 -->
         <div class="narrative-slide" data-slide="3">
-          <p class="hero-motto">Solusi percetakan komersil lengkap — dari desain hingga distribusi ke seluruh dunia.</p>
-          <h1 class="hero-tagline">
-            Kami Merancang Masa Depan.
-          </h1>
-          <div class="hero-cta">
-            <a href="#portfolio" class="btn btn-outline">Lihat Portfolio</a>
+          <div class="hero-content-glass">
+            <p class="hero-motto">Solusi percetakan komersil lengkap — dari desain hingga distribusi ke seluruh dunia.
+            </p>
+            <h1 class="hero-tagline">
+              Kami Merancang Masa Depan.
+            </h1>
+            <div class="hero-cta">
+              <a href="#portfolio" class="btn btn-outline">Lihat Portfolio</a>
+            </div>
           </div>
         </div>
         <!-- Slide 4: Ecosystem -->
@@ -263,7 +272,7 @@
     </section>
 
     <!-- ==================== APPROACH ==================== -->
-    <section class="section section-approach">
+    <section class="section section-approach" id="about">
       <div class="container">
         <div class="approach-header reveal-up">
           <p class="section-label">PENDEKATAN KAMI</p>
@@ -312,7 +321,7 @@
     </section>
 
     <!-- ==================== TESTIMONIALS / PRODUCTS ==================== -->
-    <section class="section section-testimonials" id="testimonials">
+    <section class="section section-testimonials" id="portfolio">
       <div class="container">
         <div class="text-center reveal-up">
           <p class="section-label">INOVASI KAMI</p>
@@ -374,7 +383,8 @@
         <div class="brands-bento-card">
           <div class="brands-text-center">
             <h2>Klien yang Telah Bekerja Sama</h2>
-            <p>Klien-klien kami cukup beragam dari berbagai latar belakang industri — dari perusahaan korporat,
+            <p class="desktop-only-p">Klien-klien kami cukup beragam dari berbagai latar belakang industri — dari
+              perusahaan korporat,
               start-up,
               hingga organisasi sosial.</p>
           </div>
@@ -453,7 +463,7 @@
     </section>
 
     <!-- ==================== DETAILS STATS (BENTO) ==================== -->
-    <section class="section section-stats-bento">
+    <section class="section section-stats-bento" id="facilities">
       <div class="container">
         <p class="section-label text-center reveal-up">ANGKA KAMI</p>
         <h2 class="section-title text-center reveal-up">Detail yang Membedakan</h2>
@@ -531,6 +541,7 @@
 
     <!-- ==================== FOOTER / CTA ==================== -->
     <section class="section section-cta" id="contact">
+      <canvas id="cta-particles"></canvas>
       <div class="container text-center reveal-up">
         <h2 class="cta-title">Saatnya Ide Anda Menjadi Nyata</h2>
         <p class="cta-subtitle">"The art of giving the best, to create a strong belief" — Mari wujudkan bersama.</p>

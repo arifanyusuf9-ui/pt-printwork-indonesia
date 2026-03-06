@@ -30,21 +30,28 @@ document.addEventListener('DOMContentLoaded', () => {
   let mouseY = window.innerHeight / 2;
   let ringX = mouseX;
   let ringY = mouseY;
-  let isHovering = false;
+  let magneticX = 0;
+  let magneticY = 0;
+  let isMagnetic = false;
 
   if (!isTouchDevice) {
     window.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
-      if (cursorDot) {
+      if (cursorDot && !isMagnetic) {
         cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
       }
-    });
+    }, { passive: true });
 
     const renderCursor = () => {
-      ringX += (mouseX - ringX) * 0.15;
-      ringY += (mouseY - ringY) * 0.15;
+      if (isMagnetic) {
+        ringX += (magneticX - ringX) * 0.2;
+        ringY += (magneticY - ringY) * 0.2;
+      } else {
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+      }
 
       if (cursorRing) {
         cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
@@ -55,11 +62,42 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCursor();
   }
 
-  // Hover states
-  const addHoverElements = document.querySelectorAll('a, button, .tilt-card, .workflow-step, .machine-card, .portfolio-item');
-  addHoverElements.forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  // Hover states & Magnetic behavior
+  const hoverElements = document.querySelectorAll('a, button, .workflow-step, .portfolio-item');
+  hoverElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      document.body.classList.add('cursor-hover');
+      if (el.classList.contains('btn') || el.classList.contains('magnetic')) {
+        cursorRing.classList.add('magnetic');
+        isMagnetic = true;
+        const rect = el.getBoundingClientRect();
+        cursorRing.style.width = `${rect.width + 10}px`;
+        cursorRing.style.height = `${rect.height + 10}px`;
+        cursorDot.style.opacity = '0';
+      }
+    });
+
+    el.addEventListener('mousemove', (e) => {
+      if (isMagnetic) {
+        const rect = el.getBoundingClientRect();
+        // Magnetic pull center
+        magneticX = rect.left + rect.width / 2 + (e.clientX - (rect.left + rect.width / 2)) * 0.2;
+        magneticY = rect.top + rect.height / 2 + (e.clientY - (rect.top + rect.height / 2)) * 0.2;
+        el.style.transform = `translate(${(e.clientX - (rect.left + rect.width / 2)) * 0.1}px, ${(e.clientY - (rect.top + rect.height / 2)) * 0.1}px)`;
+      }
+    });
+
+    el.addEventListener('mouseleave', () => {
+      document.body.classList.remove('cursor-hover');
+      cursorRing.classList.remove('magnetic');
+      isMagnetic = false;
+      cursorRing.style.width = '36px';
+      cursorRing.style.height = '36px';
+      cursorDot.style.opacity = '1';
+      if (el.classList.contains('btn') || el.classList.contains('magnetic')) {
+        el.style.transform = '';
+      }
+    });
   });
 
   // ── NAVIGATION & NAVBAR ─────────────────────────────
@@ -92,9 +130,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (navToggle && navLinks) {
     // Mobile menu toggle
-    navToggle.addEventListener('click', () => {
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       navToggle.classList.toggle('active');
       navLinks.classList.toggle('active');
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+      if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      }
     });
   }
 
@@ -286,58 +333,84 @@ document.addEventListener('DOMContentLoaded', () => {
     new Scrollytelling({
       canvasSelector: '#hero-canvas',
       triggerSelector: '.hero',
-      framesDir: 'animation-50fps',
-      frameCount: 252
+      framesDir: 'animation-50fps-new',
+      frameCount: 247
     });
   }
 
-  // ── 3D TILT EFFECT (GLASS CARDS) ─────────────────────
-  const tiltCards = document.querySelectorAll('.tilt-card');
+  // ── UNIVERSAL 3D TILT & GLARE EFFECT ──────────────────
+  const initUniversalTilt = () => {
+    if (isTouchDevice) return;
 
-  if (!isTouchDevice) {
-    tiltCards.forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left; // x position within the element
-        const y = e.clientY - rect.top;  // y position within the element
+    // Apply to newly relevant cards natively
+    const tiltTargets = document.querySelectorAll('.tilt-card, .hz-card, .approach-item, .bento-box, .eco-card');
+    tiltTargets.forEach(card => {
+      card.classList.add('universal-tilt');
 
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
+      // Add actual glare HTML inside the card dynamically if lacking
+      let glare = card.querySelector('.glare-overlay');
+      if (!glare) {
+        glare = document.createElement('div');
+        glare.className = 'glare-overlay';
+        card.appendChild(glare);
+      }
 
-        const rotateX = ((y - centerY) / centerY) * -10; // Max rotation 10deg
-        const rotateY = ((x - centerX) / centerX) * 10;
+      let tiltRaf = null;
 
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      card.addEventListener('mousemove', (e) => {
+        if (tiltRaf) return;
+        tiltRaf = requestAnimationFrame(() => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
 
-        // Update glare origin
-        card.style.setProperty('--glare-x', `${(x / rect.width) * 100}%`);
-        card.style.setProperty('--glare-y', `${(y / rect.height) * 100}%`);
-      });
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+
+          // Gentle rotation limit
+          const rotateX = ((y - centerY) / centerY) * -6;
+          const rotateY = ((x - centerX) / centerX) * 6;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+          card.style.setProperty('--glare-x', `${(x / rect.width) * 100}%`);
+          card.style.setProperty('--glare-y', `${(y / rect.height) * 100}%`);
+          tiltRaf = null;
+        });
+      }, { passive: true });
 
       card.addEventListener('mouseleave', () => {
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
         card.style.setProperty('--glare-x', `50%`);
         card.style.setProperty('--glare-y', `50%`);
-      });
+      }, { passive: true });
     });
+  };
+  initUniversalTilt();
 
-    // ── MAGNETIC BUTTONS ─────────────────────────────────
-    const magneticBtns = document.querySelectorAll('.magnetic-btn');
+  // ── HERO PARALLAX TEXT ───────────────────────────────
+  const initHeroParallax = () => {
+    if (isTouchDevice) return;
 
-    magneticBtns.forEach(btn => {
-      btn.addEventListener('mousemove', e => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
+    // We want to target all hero texts inside the slides
+    const heroContents = document.querySelectorAll('.hero-content-glass');
 
-        btn.style.transform = `translate3d(${x * 0.3}px, ${y * 0.3}px, 0)`;
+    let parallaxRaf = null;
+    window.addEventListener('mousemove', (e) => {
+      if (window.scrollY > window.innerHeight) return; // Skip if scrolled past hero
+      if (parallaxRaf) return;
+
+      parallaxRaf = requestAnimationFrame(() => {
+        const x = (e.clientX / window.innerWidth - 0.5) * -20;
+        const y = (e.clientY / window.innerHeight - 0.5) * -20;
+
+        heroContents.forEach(content => {
+          content.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        });
+        parallaxRaf = null;
       });
-
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = `translate3d(0px, 0px, 0)`;
-      });
-    });
-  }
+    }, { passive: true });
+  };
+  initHeroParallax();
 
   // ── HORIZONTAL WORKFLOW CAROUSEL ─────────────────────
   const workflowCarousel = document.getElementById('workflowCarousel');
@@ -638,6 +711,163 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ── 21st.dev INSPIRED: GLOW CARD MOUSE FOLLOW ─────────
+  const initGlowCards = () => {
+    if (isTouchDevice) return;
+
+    const cards = document.querySelectorAll('.approach-item, .hz-card, .test-card');
+    cards.forEach(card => {
+      card.classList.add('glow-card-container');
+      let glowRaf = null;
+
+      card.addEventListener('mousemove', (e) => {
+        if (glowRaf) return; // Throttle to 1 update per frame
+        glowRaf = requestAnimationFrame(() => {
+          const rect = card.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          card.style.setProperty('--glow-x', `${x}%`);
+          card.style.setProperty('--glow-y', `${y}%`);
+          glowRaf = null;
+        });
+      }, { passive: true });
+    });
+  };
+  initGlowCards();
+
+  // ── 21st.dev INSPIRED: CTA PARTICLE FIELD ─────────────
+  const initParticleField = () => {
+    const canvas = document.getElementById('cta-particles');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const section = canvas.closest('.section-cta');
+    if (!section) return;
+
+    let particles = [];
+    let animId = null;
+    let isActive = false;
+    const particleCount = 35; // Reduced for performance
+    const connectionDistSq = 120 * 120; // Pre-squared to avoid sqrt
+
+    const resize = () => {
+      canvas.width = section.offsetWidth;
+      canvas.height = section.offsetHeight;
+    };
+    resize();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 200);
+    }, { passive: true });
+
+    // Create particles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.3,
+        speedY: (Math.random() - 0.5) * 0.25,
+        opacity: Math.random() * 0.4 + 0.1,
+        pulse: Math.random() * Math.PI * 2
+      });
+    }
+
+    const draw = () => {
+      if (!isActive) { animId = null; return; }
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Update and draw particles
+      for (let i = 0; i < particleCount; i++) {
+        const p = particles[i];
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.pulse += 0.015;
+
+        // Wrap around edges
+        if (p.x < 0) p.x = w;
+        else if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h;
+        else if (p.y > h) p.y = 0;
+
+        const currentOpacity = p.opacity * (0.6 + 0.4 * Math.sin(p.pulse));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(152, 202, 63, ${currentOpacity})`;
+        ctx.fill();
+      }
+
+      // Connection lines — use squared distance to skip sqrt
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i < particleCount; i++) {
+        for (let j = i + 1; j < particleCount; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < connectionDistSq) {
+            const alpha = 0.06 * (1 - distSq / connectionDistSq);
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(152, 202, 63, ${alpha})`;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    // Only animate when visible
+    const observer = new IntersectionObserver((entries) => {
+      isActive = entries[0].isIntersecting;
+      if (isActive && !animId) {
+        animId = requestAnimationFrame(draw);
+      }
+    }, { threshold: 0.05 });
+    observer.observe(section);
+  };
+  initParticleField();
+
+  // ── 21st.dev INSPIRED: MAGNETIC TILT TITLES ──────────
+  const initMagneticTitles = () => {
+    if (isTouchDevice) return;
+
+    const titles = document.querySelectorAll('.section-title, .cta-title, .brands-text-center h2');
+    titles.forEach(title => {
+      title.classList.add('magnetic-title');
+      let tiltRaf = null;
+
+      title.addEventListener('mousemove', (e) => {
+        if (tiltRaf) return; // Throttle to 1 update per frame
+        tiltRaf = requestAnimationFrame(() => {
+          const rect = title.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const deltaX = (e.clientX - centerX) / (rect.width / 2);
+          const deltaY = (e.clientY - centerY) / (rect.height / 2);
+
+          const rotateX = deltaY * -5;
+          const rotateY = deltaX * 6;
+          const translateX = deltaX * 3;
+          const translateY = deltaY * 2;
+
+          title.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate(${translateX}px, ${translateY}px)`;
+          tiltRaf = null;
+        });
+      }, { passive: true });
+
+      title.addEventListener('mouseleave', () => {
+        title.style.transform = 'perspective(600px) rotateX(0) rotateY(0) translate(0, 0)';
+      }, { passive: true });
+    });
+  };
+  initMagneticTitles();
 
 });
 
