@@ -1,0 +1,7 @@
+node_modules/
+*.py
+__pycache__/
+.env
+.DS_Store
+Thumbs.db
+java-1.8.0-openjdk-1.8.0.482.b08-1.win.jdk.x86_64/
