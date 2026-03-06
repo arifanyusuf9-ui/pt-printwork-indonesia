@@ -20,7 +20,7 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-    let urlPath = req.url;
+    let urlPath = decodeURIComponent(req.url);
     let filePath;
 
     // Route for animation logo (stored in parallel directory)

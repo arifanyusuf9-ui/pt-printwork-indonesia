@@ -15,34 +15,45 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── CUSTOM CURSOR ────────────────────────────────────
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isTouchDevice) {
+    document.body.classList.add('is-touch');
+  }
+
   const cursorDot = document.getElementById('cursorDot');
   const cursorRing = document.getElementById('cursorRing');
+
+  if (isTouchDevice && cursorDot) cursorDot.style.display = 'none';
+  if (isTouchDevice && cursorRing) cursorRing.style.display = 'none';
+
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
   let ringX = mouseX;
   let ringY = mouseY;
   let isHovering = false;
 
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+  if (!isTouchDevice) {
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
 
-    if (cursorDot) {
-      cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-    }
-  });
+      if (cursorDot) {
+        cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      }
+    });
 
-  const renderCursor = () => {
-    ringX += (mouseX - ringX) * 0.15;
-    ringY += (mouseY - ringY) * 0.15;
+    const renderCursor = () => {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
 
-    if (cursorRing) {
-      cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-    }
+      if (cursorRing) {
+        cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+      }
 
-    requestAnimationFrame(renderCursor);
-  };
-  renderCursor();
+      requestAnimationFrame(renderCursor);
+    };
+    renderCursor();
+  }
 
   // Hover states
   const addHoverElements = document.querySelectorAll('a, button, .tilt-card, .workflow-step, .machine-card, .portfolio-item');
@@ -275,56 +286,58 @@ document.addEventListener('DOMContentLoaded', () => {
     new Scrollytelling({
       canvasSelector: '#hero-canvas',
       triggerSelector: '.hero',
-      framesDir: 'new-animation',
-      frameCount: 241
+      framesDir: 'animation-50fps',
+      frameCount: 252
     });
   }
 
   // ── 3D TILT EFFECT (GLASS CARDS) ─────────────────────
   const tiltCards = document.querySelectorAll('.tilt-card');
 
-  tiltCards.forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left; // x position within the element
-      const y = e.clientY - rect.top;  // y position within the element
+  if (!isTouchDevice) {
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left; // x position within the element
+        const y = e.clientY - rect.top;  // y position within the element
 
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
-      const rotateX = ((y - centerY) / centerY) * -10; // Max rotation 10deg
-      const rotateY = ((x - centerX) / centerX) * 10;
+        const rotateX = ((y - centerY) / centerY) * -10; // Max rotation 10deg
+        const rotateY = ((x - centerX) / centerX) * 10;
 
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
 
-      // Update glare origin
-      card.style.setProperty('--glare-x', `${(x / rect.width) * 100}%`);
-      card.style.setProperty('--glare-y', `${(y / rect.height) * 100}%`);
+        // Update glare origin
+        card.style.setProperty('--glare-x', `${(x / rect.width) * 100}%`);
+        card.style.setProperty('--glare-y', `${(y / rect.height) * 100}%`);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        card.style.setProperty('--glare-x', `50%`);
+        card.style.setProperty('--glare-y', `50%`);
+      });
     });
 
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-      card.style.setProperty('--glare-x', `50%`);
-      card.style.setProperty('--glare-y', `50%`);
+    // ── MAGNETIC BUTTONS ─────────────────────────────────
+    const magneticBtns = document.querySelectorAll('.magnetic-btn');
+
+    magneticBtns.forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        btn.style.transform = `translate3d(${x * 0.3}px, ${y * 0.3}px, 0)`;
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = `translate3d(0px, 0px, 0)`;
+      });
     });
-  });
-
-  // ── MAGNETIC BUTTONS ─────────────────────────────────
-  const magneticBtns = document.querySelectorAll('.magnetic-btn');
-
-  magneticBtns.forEach(btn => {
-    btn.addEventListener('mousemove', e => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-
-      btn.style.transform = `translate3d(${x * 0.3}px, ${y * 0.3}px, 0)`;
-    });
-
-    btn.addEventListener('mouseleave', () => {
-      btn.style.transform = `translate3d(0px, 0px, 0)`;
-    });
-  });
+  }
 
   // ── HORIZONTAL WORKFLOW CAROUSEL ─────────────────────
   const workflowCarousel = document.getElementById('workflowCarousel');
@@ -497,10 +510,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // White section particles (gray/lime)
-  initParticles('aboutParticles', '141, 194, 31', 60);
+  initParticles('aboutParticles', '141, 194, 31', isTouchDevice ? 20 : 60);
 
   // Quote section particles (white/lime)
-  initParticles('quoteParticles', '255, 255, 255', 40);
+  initParticles('quoteParticles', '255, 255, 255', isTouchDevice ? 15 : 40);
 
   // ── PARALLAX BACKGROUNDS ON SCROLL ───────────────────
   window.addEventListener('scroll', () => {

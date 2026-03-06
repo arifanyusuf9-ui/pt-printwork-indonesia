@@ -18,8 +18,8 @@
   /* Official brand lime green from PDF */
   --accent-hover: #82AD36;
 
-  --font-family: 'Satoshi', sans-serif;
-  --font-heading: 'Playfair Display', serif;
+  --font-family: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'Syne', sans-serif;
 
   --radius-btn: 44px;
   --radius-card: 20px;
@@ -118,14 +118,22 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('media/gradient_background.png');
-  background-size: cover;
-  background-position: center;
-  background-attachment: scroll;
-  /* Scroll is better when the parent is fixed */
+  background: linear-gradient(150deg, var(--bg-primary) 0%, var(--bg-primary) 93%, rgba(152, 202, 63, 0.5) 100%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at bottom right, rgba(152, 202, 63, 0.6) 0%, transparent 7%);
   z-index: -1;
   pointer-events: none;
-  will-change: transform;
+  filter: blur(80px);
 }
 
 body {
@@ -421,8 +429,8 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-fit: cover;
   opacity: 1;
+  will-change: transform;
 }
 
 .hero-vignette {
@@ -446,6 +454,7 @@ img {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  will-change: transform;
 }
 
 .narrative-slide {
@@ -490,6 +499,7 @@ img {
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin-bottom: 32px;
+  color: var(--accent);
 }
 
 /* ── BUTTONS ───────────────────────────────────────── */
@@ -530,7 +540,8 @@ img {
 
 /* ── SECTIONS BASE ─────────────────────────────────── */
 .content-wrapper-blurred {
-  background: rgba(15, 27, 51, 0.92);
+  background: rgba(15, 27, 51, 0.82);
+  /* Reduced opacity to reveal background lime */
   /* Opaque background instead of heavy blur */
   position: relative;
   z-index: 10;
@@ -763,20 +774,19 @@ img {
   width: 75vw;
   max-width: 1100px;
   height: 70vh;
-  min-height: 500px;
+  min-height: 600px;
+  /* Slightly taller for safety */
   background: rgba(15, 27, 51, 0.85);
   border: 2px solid var(--accent);
   border-radius: 32px;
-  /* Increased for smoother look */
   display: flex;
   overflow: hidden;
   will-change: transform;
   box-shadow: 0 0 30px rgba(152, 202, 63, 0.1);
-  /* Subtle lime glow */
 }
 
 .hz-content {
-  flex: 1;
+  flex: 0 0 50%;
   padding: 60px;
   display: flex;
   flex-direction: column;
@@ -837,7 +847,7 @@ img {
 }
 
 .hz-image {
-  flex: 1;
+  flex: 0 0 50%;
   overflow: hidden;
 }
 
@@ -856,17 +866,45 @@ img {
 
 @media (max-width: 1024px) {
   .hz-card {
-    width: 90vw;
-    height: 80vh;
-    flex-direction: column;
+    width: 85vw !important;
+    height: 75vh !important;
+    min-height: 580px !important;
+    flex-direction: column !important;
+    margin: 0 auto;
+  }
+
+  .hz-image {
+    height: 40% !important;
+    flex: none !important;
   }
 
   .hz-content {
-    padding: 40px;
+    height: 60% !important;
+    flex: none !important;
+    padding: 24px !important;
+    overflow-y: auto !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hz-icon {
+    margin-bottom: 20px !important;
   }
 
   .hz-title {
-    font-size: 28px;
+    font-size: 24px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .hz-desc {
+    font-size: 14px !important;
+    margin-bottom: 16px !important;
+    line-height: 1.5 !important;
+  }
+
+  .hz-list li {
+    font-size: 13px !important;
+    margin-bottom: 8px !important;
   }
 }
 
@@ -899,7 +937,8 @@ img {
   flex-direction: column;
   justify-content: flex-end;
   padding: 40px;
-  min-height: 380px;
+  height: 480px;
+  /* Enforce uniform height */
   background: rgba(15, 27, 51, 0.8);
   border: 1px solid rgba(152, 202, 63, 0.12);
   transition: border-color 0.4s;
@@ -999,7 +1038,8 @@ img {
   border-radius: 28px;
   overflow: hidden;
   transition: transform 0.4s var(--ease), border-color 0.4s;
-  height: 100%;
+  height: 580px;
+  /* Enforce uniform height */
   display: flex;
   flex-direction: column;
 }
@@ -1241,6 +1281,8 @@ img {
   margin-top: 60px;
   overflow: hidden;
   padding: 30px 0;
+  background-color: var(--accent);
+  /* Lime background */
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -1258,6 +1300,18 @@ img {
   opacity: 1;
   transition: transform 0.3s ease;
   flex-shrink: 0;
+}
+
+.marquee-track img[alt="Astra"] {
+  height: 140px;
+}
+
+.marquee-track img[alt="Jotun"] {
+  height: 90px;
+}
+
+.marquee-track img[src*="15-53-12-322"] {
+  height: 100px;
 }
 
 .marquee-track img:hover {
@@ -1293,6 +1347,13 @@ img {
 
   .brands-bento-card {
     min-height: 400px;
+  }
+
+  /* Bento Performance */
+  .bento-box {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(15, 27, 51, 0.8) !important;
   }
 }
 
@@ -1678,6 +1739,30 @@ img {
 /* ──────────────── MOBILE REBUILD (iertqa.com style) ──────────────── */
 @media (max-width: 768px) {
 
+  /* General Mobile Performance - Restore Background but simplified */
+  body::before {
+    display: block !important;
+    opacity: 0.6 !important;
+    background-image: none !important;
+    /* Save memory by not loading the large PNG */
+    background: #0B1218 !important;
+    /* Base dark color */
+  }
+
+  body::after {
+    display: block !important;
+    opacity: 1 !important;
+    /* Stronger, more centered glows for mobile */
+    background: radial-gradient(circle at 90% 10%, rgba(152, 202, 63, 0.15) 0%, transparent 60%),
+      radial-gradient(circle at 10% 90%, rgba(152, 202, 63, 0.15) 0%, transparent 60%) !important;
+    z-index: -1 !important;
+  }
+
+  .content-wrapper-blurred {
+    background: rgba(11, 18, 24, 0.75) !important;
+    /* More transparent on mobile to let glow through */
+  }
+
   /* Hero Section */
   .hero-tagline {
     font-size: 32px !important;
@@ -1725,9 +1810,10 @@ img {
     width: 100% !important;
     padding: 16px !important;
     border-radius: 16px !important;
-    background: rgba(20, 25, 30, 0.75) !important;
-    /* Dark glass */
-    backdrop-filter: blur(16px) !important;
+    background: rgba(20, 25, 30, 0.9) !important;
+    /* More opaque dark background, remove expensive blur on mobile */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
     animation: none !important;

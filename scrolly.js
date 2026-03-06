@@ -8,15 +8,16 @@ class Scrollytelling {
         this.canvas = document.querySelector(options.canvasSelector);
         this.isMobileDevice = window.innerWidth <= 768;
 
-        // Ultra-low PR for mobile (0.8x for performance)
-        this.pixelRatio = this.isMobileDevice ? 0.8 : 1.25;
+        // Increased from 0.4 to 0.75 to fix blurriness while still being faster than 1:1
+        this.pixelRatio = this.isMobileDevice ? 0.75 : 1.25;
 
         this.context = this.canvas.getContext('2d', {
             alpha: false,
-            desynchronized: true
+            desynchronized: true,
+            storage: 'discardable'
         });
 
-        this.context.imageSmoothingEnabled = false;
+        this.context.imageSmoothingEnabled = true; // Enabled for better quality scaling
         this.framesDir = options.framesDir;
         this.frameCount = options.frameCount;
         this.triggerSelector = options.triggerSelector;
@@ -27,8 +28,8 @@ class Scrollytelling {
 
         this.targetFrameIndex = 0;
         this.lerpFrameIndex = 0;
-        // More aggressive lerp for mobile snappiness
-        this.lerpAmount = this.isMobileDevice ? 0.15 : 0.06;
+        // Faster lerp on mobile for immediate feedback
+        this.lerpAmount = this.isMobileDevice ? 0.25 : 0.06;
 
         this.init();
     }
@@ -54,7 +55,7 @@ class Scrollytelling {
             const wasMobile = this.isMobileDevice;
             this.isMobileDevice = window.innerWidth <= 768;
             if (wasMobile !== this.isMobileDevice) {
-                this.pixelRatio = this.isMobileDevice ? 0.8 : 1.25;
+                this.pixelRatio = this.isMobileDevice ? 0.75 : 1.25;
                 this.setupCanvas();
             }
         }, { passive: true });
@@ -66,20 +67,21 @@ class Scrollytelling {
     setupCanvas() {
         const w = window.innerWidth;
         const h = window.innerHeight;
-        this.canvas.width = w * this.pixelRatio;
-        this.canvas.height = h * this.pixelRatio;
+        this.canvas.width = Math.floor(w * this.pixelRatio);
+        this.canvas.height = Math.floor(h * this.pixelRatio);
         this.canvas.style.width = w + 'px';
         this.canvas.style.height = h + 'px';
-        this.context.imageSmoothingEnabled = false;
+        this.context.imageSmoothingEnabled = true;
     }
 
     async preloadImages() {
         const promises = [];
-        // CRITICAL MOBILE OPTIMIZATION: Only load EVERY OTHER frame on mobile to save 50% memory/bandwidth
-        const step = this.isMobileDevice ? 2 : 1;
+        // CRITICAL: Load only every 3rd frame on mobile to save 66% memory
+        const step = this.isMobileDevice ? 3 : 1;
 
         for (let i = 0; i < this.frameCount; i += step) {
-            const src = `${this.framesDir}/${i + 1}-ezgif.com-webp-to-jpg-converter.jpg`;
+            const frameNum = String(i).padStart(3, '0');
+            const src = `${this.framesDir}/frame_${frameNum}_delay-0.02s.jpg`;
             const img = new Image();
             img.src = src;
             promises.push(new Promise((resolve) => {
@@ -101,41 +103,74 @@ class Scrollytelling {
     setupScrollListener() {
         if (!this.triggerElement) return;
 
+        // Cache positions to avoid getBoundingClientRect reflows
+        let triggerTop = 0;
+        let triggerHeight = 0;
+
+        const updatePositions = () => {
+            const rect = this.triggerElement.getBoundingClientRect();
+            triggerTop = rect.top + window.pageYOffset;
+            triggerHeight = rect.height;
+        };
+
+        updatePositions();
+        window.addEventListener('resize', updatePositions, { passive: true });
+
         window.addEventListener('scroll', () => {
             if (!this.isVisible) return;
-            const rect = this.triggerElement.getBoundingClientRect();
-            const scrollDistance = -rect.top;
-            const scrollHeight = this.triggerElement.offsetHeight - window.innerHeight;
+            const scrollDistance = window.pageYOffset - triggerTop;
+            const scrollHeight = triggerHeight - window.innerHeight;
             const relativeScroll = Math.max(0, Math.min(1, scrollDistance / scrollHeight));
             this.targetFrameIndex = relativeScroll * (this.frameCount - 1);
         }, { passive: true });
     }
 
     startAnimationLoop() {
+        let isLooping = false;
+
         const update = () => {
-            if (this.isVisible) {
-                const diff = this.targetFrameIndex - this.lerpFrameIndex;
-                if (Math.abs(diff) > 0.01) {
-                    this.lerpFrameIndex += diff * this.lerpAmount;
-
-                    let nextFrame = Math.round(this.lerpFrameIndex);
-
-                    // Mobile: Find nearest loaded frame
-                    if (this.isMobileDevice && !this.images[nextFrame]) {
-                        nextFrame = Math.floor(nextFrame / 2) * 2;
-                    }
-
-                    if (nextFrame !== this.currentFrameIndex && this.images[nextFrame]) {
-                        this.currentFrameIndex = nextFrame;
-                        this.render();
-                    } else {
-                        // Keep text smooth even if frame doesn't change
-                        this.updateNarrative();
-                    }
-                }
+            if (!this.isVisible) {
+                isLooping = false;
+                return;
             }
-            requestAnimationFrame(update);
+
+            const diff = this.targetFrameIndex - this.lerpFrameIndex;
+            if (Math.abs(diff) > 0.01) {
+                this.lerpFrameIndex += diff * this.lerpAmount;
+
+                let nextFrame = Math.round(this.lerpFrameIndex);
+
+                // Find nearest loaded frame
+                if (this.isMobileDevice && !this.images[nextFrame]) {
+                    nextFrame = Math.floor(nextFrame / 3) * 3;
+                }
+
+                if (nextFrame !== this.currentFrameIndex && this.images[nextFrame]) {
+                    this.currentFrameIndex = nextFrame;
+                    this.render();
+                } else {
+                    // Ensure text stays smooth
+                    this.updateNarrative();
+                }
+                requestAnimationFrame(update);
+            } else {
+                isLooping = false;
+                // Final snap
+                this.lerpFrameIndex = this.targetFrameIndex;
+                this.updateNarrative();
+                this.render();
+            }
         };
+
+        // Trigger loop on scroll
+        window.addEventListener('scroll', () => {
+            if (this.isVisible && !isLooping) {
+                isLooping = true;
+                requestAnimationFrame(update);
+            }
+        }, { passive: true });
+
+        // Initial render
         requestAnimationFrame(update);
     }
 
@@ -151,31 +186,31 @@ class Scrollytelling {
             else { start = 0.70; end = 1.0; }
 
             let opacity = 0;
-            let translateY = 30; // Reduced for performance
+            let translateY = 20;
 
             if (relScroll >= start && relScroll <= end) {
                 const slideProgress = (relScroll - start) / (end - start);
                 if (slideProgress < 0.2) {
                     opacity = slideProgress / 0.2;
-                    translateY = 30 * (1 - opacity);
+                    translateY = 20 * (1 - opacity);
                 } else if (slideProgress < 0.8) {
                     opacity = 1;
                     translateY = 0;
                 } else {
                     const p = (slideProgress - 0.8) / 0.2;
                     opacity = 1 - p;
-                    translateY = -30 * p;
+                    translateY = -20 * p;
                 }
             } else if (relScroll > end) {
-                opacity = 0; translateY = -30;
+                opacity = 0; translateY = -20;
             } else {
-                opacity = 0; translateY = 30;
+                opacity = 0; translateY = 20;
             }
 
             const cache = this.slideCache[index];
-            if (Math.abs(cache.opacity - opacity) > 0.01 || Math.abs(cache.translateY - translateY) > 0.5) {
+            if (Math.abs(cache.opacity - opacity) > 0.015 || Math.abs(cache.translateY - translateY) > 1.0) {
                 slide.style.opacity = opacity.toFixed(2);
-                slide.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0)`;
+                slide.style.transform = `translate3d(0, ${translateY.toFixed(0)}px, 0)`;
                 const vis = opacity > 0.01 ? 'visible' : 'hidden';
                 if (cache.visibility !== vis) {
                     slide.style.visibility = vis;
@@ -201,28 +236,32 @@ class Scrollytelling {
         const scaleBase = Math.max(cw / iw, ch / ih);
         const rel = this.lerpFrameIndex / (this.frameCount - 1);
 
-        // Remove expensive rotations for mobile completely
-        const dynamicScale = this.isMobileDevice ? 1.01 : (1 + (rel * 0.05));
-        const rotation = this.isMobileDevice ? 0 : rel * (Math.PI / 40);
+        // Mobile renders are simple and fast
+        if (this.isMobileDevice) {
+            const drawW = iw * scaleBase;
+            const drawH = ih * scaleBase;
+            const x = (cw - drawW) / 2;
+            const y = (ch - drawH) / 2;
+            // Skip clearRect on mobile, we cover the whole thing
+            this.context.drawImage(img, x, y, drawW, drawH);
+            return;
+        }
+
+        const dynamicScale = 1 + (rel * 0.05);
+        const rotation = rel * (Math.PI / 40);
 
         const scale = scaleBase * dynamicScale;
         const drawW = iw * scale;
         const drawH = ih * scale;
-        const x = (cw - drawW) / 2;
-        const y = (ch - drawH) / 2;
 
         this.context.clearRect(0, 0, cw, ch);
-
-        if (rotation === 0) {
-            this.context.drawImage(img, x, y, drawW, drawH);
-        } else {
-            this.context.save();
-            this.context.translate(cw / 2, ch / 2);
-            this.context.rotate(rotation);
-            this.context.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
-            this.context.restore();
-        }
+        this.context.save();
+        this.context.translate(cw / 2, ch / 2);
+        this.context.rotate(rotation);
+        this.context.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+        this.context.restore();
     }
+
 }
 
 window.Scrollytelling = Scrollytelling;
