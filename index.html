@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PT Printwork Multigraph Indonesia — Percetakan & Packaging Premium</title>
+  <meta name="description"
+    content="PT Printwork Multigraph Indonesia - Solusi percetakan dan packaging premium selama lebih dari 10 tahun di Jakarta.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D1B3E;
+      --navy-deep: #091429;
+      --lime: #7AB818;
+      --slate: #2D4A6E;
+      --light: #F5F5F5;
+      --muted: #9AA5B4;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--navy);
+      color: var(--light);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Video Background styling - Ultra-Sharp Optimization */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -100;
+      pointer-events: none;
+      /* Meningkatkan kejernihan visual secara paksa */
+      filter: contrast(1.15) brightness(1.1);
+      -webkit-filter: contrast(1.15) brightness(1.1);
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      will-change: transform, filter;
+    }
+
+    /* ── MODERN GLASS NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1200px;
+      z-index: 1000;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      /* Match Shop page premium height */
+      background: rgba(0, 0, 0, 0.2);
+      /* Darker glass for better contrast against video */
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 60px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-img {
+      height: 70px;
+      /* Enlarge logo */
+      width: auto;
+    }
+
+    .nav-logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--light);
+    }
+
+    .nav-links {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 30px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Nav Icons */
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-icon {
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .nav-icon:hover {
+      color: #fff;
+    }
+
+    /* Hero */
+    .home-hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+    }
+
+    .home-logo-big {
+      width: 140px;
+      height: auto;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s ease both;
+      filter: drop-shadow(0 0 60px rgba(122, 184, 24, 0.2));
+    }
+
+    .home-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .home-title span {
+      color: var(--lime);
+    }
+
+    .home-subtitle {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 56px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .home-motto {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: rgba(122, 184, 24, 0.7);
+      margin-bottom: 48px;
+      animation: fadeUp 0.8s 0.25s ease both;
+    }
+
+    /* CTA Cards */
+    .cta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      width: 100%;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .cta-card {
+      background: rgba(45, 74, 110, 0.2);
+      border: 1px solid rgba(122, 184, 24, 0.1);
+      border-radius: 20px;
+      padding: 40px 32px;
+      text-decoration: none;
+      color: var(--light);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(122, 184, 24, 0.06), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .cta-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(122, 184, 24, 0.3);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3), 0 0 40px rgba(122, 184, 24, 0.1);
+    }
+
+    .cta-card:hover::before {
+      opacity: 1;
+    }
+
+    .cta-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .cta-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .cta-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .cta-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--lime);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .cta-arrow span {
+      transition: transform 0.3s;
+    }
+
+    .cta-card:hover .cta-arrow span {
+      transform: translateX(6px);
+    }
+
+    /* Remove Glow to prevent blurriness over video */
+    .home-glow {
+      display: none;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Footer */
+    .footer-strip {
+      position: relative;
+      z-index: 1;
+      padding: 24px 60px;
+      border-top: 1px solid rgba(122, 184, 24, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-strip strong {
+      color: var(--lime);
+    }
+
+    /* Mobile nav */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+
+    .mobile-bottom-nav {
+      display: none !important;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--light);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 0 20px;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 100px;
+        left: auto;
+        right: 24px;
+        width: 240px;
+        background: rgba(13, 27, 70, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 0;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        z-index: 999999;
+        border-radius: 20px;
+        border: 1px solid transparent;
+        text-align: center;
+        box-shadow: none;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .nav-links.open {
+        max-height: 400px;
+        padding: 20px 0;
+        border: 1px solid rgba(152, 202, 63, 0.2);
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .nav-links li {
+        width: 100%;
+        opacity: 0;
+        transform: translateY(15px);
+        transition: all 0.5s ease-out;
+      }
+
+      .nav-links.open li {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .nav-links li a {
+        display: block;
+        padding: 18px 10px;
+        font-size: 18px;
+        font-weight: 800;
+        color: #7AB818 !important;
+        /* LIME GREEN */
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+      }
+
+      .home-title {
+        font-size: clamp(28px, 9vw, 42px) !important;
+        line-height: 1.1 !important;
+      }
+
+      .nav-logo-text {
+        font-size: 11px !important;
+        line-height: 1.2 !important;
+      }
+
+      .home-hero {
+        padding: 100px 24px 60px;
+      }
+
+      .cta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-strip {
+        padding: 16px 24px;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+
+      .mobile-bottom-nav {
+        display: flex !important;
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(13, 27, 62, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(152, 202, 63, 0.15);
+        border-radius: 40px;
+        padding: 8px;
+        z-index: 10000;
+        gap: 5px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        width: max-content;
+      }
+
+      .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.5);
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        min-width: 60px;
+      }
+
+      .mobile-nav-item svg {
+        margin-bottom: 3px;
+        width: 20px;
+        height: 20px;
+      }
+
+      .mobile-nav-item span {
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .mobile-nav-item.active {
+        background: rgba(152, 202, 63, 0.1);
+        color: #7AB818;
+      }
+
+      /* MOBILE OVERLAP FIX */
+      .browse-home-wrap {
+        bottom: 110px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        transform: none !important;
+      }
+
+      .btn-browse-all {
+        padding: 14px 32px !important;
+        font-size: 13px !important;
+      }
+    }
+
+    .browse-home-wrap {
+      position: fixed;
+      bottom: 32px;
+      left: 38%;
+      transform: translateX(-50%);
+      z-index: 1001;
+      animation: fadeUp 1s 0.5s ease both;
+    }
+
+    .btn-browse-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 48px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      color: #0D1B3E;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      border-radius: 100px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-browse-all:hover {
+      transform: translateY(-8px);
+      background: #fff;
+      box-shadow: 0 30px 60px rgba(122, 184, 24, 0.4);
+      color: #7AB818;
+    }
+
+    .btn-browse-all svg {
+      transition: transform 0.3s;
+    }
+
+    .btn-browse-all:hover svg {
+      transform: translateX(5px);
+    }
+  </style>
+</head>
+
+<body class="theme-dark">
+
+  <video autoplay loop muted playsinline id="bg-video">
+    <source src="media/bg_home_final_4k.mp4" type="video/mp4">
+  </video>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="PT Printwork" class="nav-logo-img">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="shop.html">Products</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+    <div class="nav-icons">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="nav-icon" onclick="window.location.href='shop.html'"
+        title="Toko">
+        <path d="M3 21h18"></path>
+        <path d="M3 7l2-4h14l2 4"></path>
+        <path d="M5 21V7"></path>
+        <path d="M19 21V7"></path>
+        <path d="M9 21V11h6v10"></path>
+      </svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="nav-icon"
+        onclick="window.location.href='admin-login.html'" title="Admin">
+        <path
+          d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div style="position:relative; cursor:pointer;" onclick="toggleCart()" title="Keranjang">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="nav-icon">
+          <path
+            d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22ZM20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22ZM1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.5583 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="cart-count" id="cartCount"
+          style="position:absolute; top:-8px; right:-12px; background:var(--accent); color:var(--bg-primary); padding: 2px 6px; border-radius: 10px; font-size: 10px; font-weight: 800;">0</span>
+      </div>
+  </nav>
+
+  <!-- BROWSE PRODUCT BUTTON -->
+  <div class="browse-home-wrap mobile-hide">
+    <a href="shop.html" class="btn-browse-all">
+      Browse All Products
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+  </div>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <div class="mobile-bottom-nav">
+    <a href="index.html" class="mobile-nav-item active">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+      <span>Home</span>
+    </a>
+    <a href="shop.html" class="mobile-nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 21h18"></path>
+        <path d="M3 7l2-4h14l2 4"></path>
+        <path d="M5 21V7"></path>
+        <path d="M19 21V7"></path>
+        <path d="M9 21V11h6v10"></path>
+      </svg>
+      <span>Shop</span>
+    </a>
+    <a href="about.html" class="mobile-nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+      <span>About</span>
+    </a>
+  </div>
+
+  <script>
+    function toggleCart() {
+      // Redirect to shop for cart management if not on shop page
+      window.location.href = 'shop.html';
+    }
+  </script>
+</body>
+
+</html>

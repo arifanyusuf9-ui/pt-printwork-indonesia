@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — PT Printwork Multigraph Indonesia</title>
+  <meta name="description"
+    content="PT Printwork Multigraph Indonesia - Solusi percetakan dan desain premium selama lebih dari 10 tahun di Jakarta. Kualitas internasional untuk kebutuhan bisnis Anda.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=7">
+</head>
+
+<body class="theme-dark">
+
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="logo.png" alt="PT Printwork" class="nav-logo-img">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Products</a></li>
+      <li><a href="about.html" class="active">About Us</a></li>
+    </ul>
+    <div class="nav-icons">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="nav-icon" onclick="window.location.href='shop.html'"
+        title="Toko">
+        <path d="M3 21h18"></path>
+        <path d="M3 7l2-4h14l2 4"></path>
+        <path d="M5 21V7"></path>
+        <path d="M19 21V7"></path>
+        <path d="M9 21V11h6v10"></path>
+      </svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="nav-icon"
+        onclick="window.location.href='admin-login.html'" title="Admin">
+        <path
+          d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div style="position:relative; cursor:pointer;" onclick="toggleCart()" title="Keranjang">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="nav-icon">
+          <path
+            d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22ZM20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22ZM1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="cart-count" id="cartCount"
+          style="position:absolute; top:-8px; right:-12px; background:var(--accent); color:var(--bg-primary); padding: 2px 6px; border-radius: 10px; font-size: 10px; font-weight: 800;">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero" id="home">
+    <div class="scrolly-container">
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-vignette"></div>
+      <!-- Hero Narrative Pinned -->
+      <div class="hero-narrative">
+        <!-- Slide 1 -->
+        <div class="narrative-slide active" data-slide="1">
+          <div class="hero-content-glass">
+            <p class="hero-motto">PT Printwork Multigraph Indonesia — Perusahaan percetakan & desain premium selama
+              lebih
+              dari 10 tahun.
+            </p>
+            <h1 class="hero-tagline">
+              Dimana ide menjadi nyata.
+            </h1>
+            <div class="hero-cta">
+              <a href="#contact" class="btn btn-primary primary-glow">Hubungi Kami</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="narrative-slide" data-slide="2">
+          <div class="hero-content-glass">
+            <p class="hero-motto">"The art of giving the best, to create a strong belief" — Seni memberikan yang
+              terbaik,
+              untuk menciptakan kepercayaan yang kuat.</p>
+            <h1 class="hero-tagline">
+              Kualitas Premium. Standar Internasional.
+            </h1>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="narrative-slide" data-slide="3">
+          <div class="hero-content-glass">
+            <p class="hero-motto">Solusi percetakan komersil lengkap — dari desain hingga distribusi ke seluruh dunia.
+            </p>
+            <h1 class="hero-tagline">
+              Kami Merancang Masa Depan.
+            </h1>
+            <div class="hero-cta">
+              <a href="#portfolio" class="btn btn-outline">Lihat Portfolio</a>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 4: Ecosystem -->
+        <div class="narrative-slide ecosystem-slide color-lime" data-slide="4">
+          <div class="ecosystem-container">
+            <!-- Cards -->
+            <div class="eco-wrapper eco-top-left">
+              <div class="eco-card">
+                <div class="eco-icon">🖨️</div>
+                <p><strong>Ekosistem Terintegrasi</strong> yang menyatukan kreativitas dan manufaktur cetak.</p>
+              </div>
+            </div>
+
+            <div class="eco-wrapper eco-top-right">
+              <div class="eco-card delay-1">
+                <div class="eco-icon">👥</div>
+                <p><strong>Tim Berdedikasi</strong> yang mendorong kesuksesan dan kemitraan yang kuat.</p>
+              </div>
+            </div>
+
+            <div class="eco-wrapper eco-bottom-left">
+              <div class="eco-card delay-2">
+                <div class="eco-icon">
+                  <svg width="44" height="30" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="3" height="1" fill="#FF0000" />
+                    <rect y="1" width="3" height="1" fill="#FFFFFF" />
+                  </svg>
+                </div>
+                <p><strong>Identitas Indonesia</strong> — memadukan keaslian dengan ekspresi modern.</p>
+              </div>
+            </div>
+
+            <div class="eco-wrapper eco-bottom-right">
+              <div class="eco-card delay-3">
+                <div class="eco-icon">💡</div>
+                <p>Manufaktur canggih yang memungkinkan <strong>kustomisasi</strong> tanpa batas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MAIN CONTENT WRAPPER ==================== -->
+  <div id="content-blur-wrapper" class="content-wrapper-blurred">
+
+    <!-- ==================== HORIZONTAL SCROLL SERVICES ==================== -->
+    <section class="section section-horizontal color-lime" id="services">
+      <div class="sticky-container" id="hzSticky">
+        <div class="horizontal-track-container">
+          <div class="horizontal-track" id="hzTrack">
+
+            <!-- Card 1 -->
+            <div class="hz-card">
+              <div class="hz-content">
+                <div class="hz-icon">🎨</div>
+                <h3 class="hz-title">Desain &<br>Inovasi</h3>
+                <p class="hz-desc">Tim desain kami mengubah visi menjadi konsep nyata. Dari brief awal hingga artwork
+                  final, setiap detail dirancang dengan teliti untuk mencerminkan identitas dan aspirasi brand Anda.</p>
+                <ul class="hz-list">
+                  <li>Identitas brand strategis & desain korporat.</li>
+                  <li>Konsep kreatif disesuaikan untuk media cetak.</li>
+                  <li>Mockup dan prototyping berkualitas tinggi.</li>
+                  <li>Manajemen proyek end-to-end.</li>
+                </ul>
+              </div>
+              <div class="hz-image">
+                <img src="pdf/picture1.jpeg" alt="Desain & Inovasi">
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="hz-card">
+              <div class="hz-content">
+                <div class="hz-icon">⚙️</div>
+                <h3 class="hz-title">Manufaktur<br>Fleksibel & Presisi</h3>
+                <p class="hz-desc">Kami mengubah desain menjadi produk berkualitas dengan menggabungkan teknologi
+                  canggih
+                  dan keahlian tangan — memadukan presisi industri dan detail handmade. Berbahan dasar kertas, karton,
+                  kami mengerjakan cetakan komersil seperti annual report, katalog, company profile, kalender, agenda,
+                  notebook, majalah, dan lainnya.</p>
+                <ul class="hz-list">
+                  <li>Didukung oleh lini produksi terintegrasi.</li>
+                  <li>Teknik manufaktur multi-material yang fleksibel.</li>
+                  <li>Operasi percetakan & gifting skala besar.</li>
+                  <li>Mengelola produksi dari skala kecil hingga besar.</li>
+                </ul>
+              </div>
+              <div class="hz-image">
+                <img src="pdf/Picture2.jpg" alt="Manufaktur Fleksibel & Presisi">
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="hz-card">
+              <div class="hz-content">
+                <div class="hz-icon">📦</div>
+                <h3 class="hz-title">Packaging &<br>Hard Box</h3>
+                <p class="hz-desc">Kami meningkatkan pengalaman unboxing dengan packaging premium yang dirancang khusus
+                  —
+                  melindungi produk sekaligus menciptakan kesan yang tak terlupakan. Sejak 2018 kami memperluas layanan
+                  ke
+                  industri packaging dan rigid/hardbox.</p>
+                <ul class="hz-list">
+                  <li>Desain packaging struktural sesuai pesanan.</li>
+                  <li>Pilihan material berkelanjutan dan premium.</li>
+                  <li>Insert pelindung dan die-cut kustom.</li>
+                  <li>Layanan kitting dan assembly lengkap.</li>
+                </ul>
+              </div>
+              <div class="hz-image">
+                <img src="pdf/Picture3.jpg" alt="Packaging & Hard Box">
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="hz-card">
+              <div class="hz-content">
+                <div class="hz-icon">🖨️</div>
+                <h3 class="hz-title">Standar<br>Cetak Premium</h3>
+                <p class="hz-desc">Dilengkapi dengan mesin cetak canggih Heidelberg, kami menangani segalanya mulai dari
+                  cetakan komersil format besar hingga reproduksi seni premium.</p>
+                <ul class="hz-list">
+                  <li>Offset printing hingga 5 warna (Heidelberg SM CD).</li>
+                  <li>Offset printing 4 warna (Heidelberg SM 102).</li>
+                  <li>Finishing spesial: foil stamping, embossing, UV, laminasi.</li>
+                  <li>Kontrol kualitas warna yang ketat sesuai standar ISO.</li>
+                </ul>
+              </div>
+              <div class="hz-image">
+                <img src="media/pdf_image_207.png" alt="Percetakan"
+                  style="width: 100%; height: 100%; object-fit: cover; display: block;">
+              </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="hz-card">
+              <div class="hz-content">
+                <div class="hz-icon">🚚</div>
+                <h3 class="hz-title">Distribusi &<br>Pengiriman</h3>
+                <p class="hz-desc">Solusi logistik terintegrasi kami memastikan produk jadi Anda disimpan dengan aman,
+                  dikelola, dan dikirimkan ke tujuan akhir tepat waktu — ke seluruh Indonesia dan dunia.</p>
+                <ul class="hz-list">
+                  <li>Pengemasan produk ke lebih dari satu tujuan.</li>
+                  <li>Layanan pick and pack fulfillment.</li>
+                  <li>Koordinasi pengiriman lokal dan internasional.</li>
+                  <li>Pelacakan real-time dan pelaporan.</li>
+                </ul>
+              </div>
+              <div class="hz-image">
+                <img src="media/service_distribution.png" alt="Distribusi"
+                  style="width: 100%; height: 100%; object-fit: cover; display: block;">
+              </div>
+            </div>
+
+          </div>
+          <div class="hz-nav-container">
+            <div class="hz-scrollbar">
+              <div class="hz-scroll-thumb" id="hzScrollThumb"></div>
+            </div>
+            <div class="hz-dots" id="hzDots"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== APPROACH ==================== -->
+    <section class="section section-approach" id="about">
+      <div class="container">
+        <div class="approach-header reveal-up">
+          <p class="section-label">PENDEKATAN KAMI</p>
+          <h2 class="section-title">Visi, Misi & Nilai Kami</h2>
+        </div>
+        <div class="approach-grid">
+          <!-- Card 1: Visi -->
+          <div class="approach-item reveal-up">
+            <img src="pdf/picture1.jpeg" alt="Visi" class="approach-bg">
+            <div class="approach-content">
+              <div class="approach-icon">🔭</div>
+              <h4>Visi</h4>
+              <p>Menjadi perusahaan percetakan yang memberi solusi dengan hasil cetak berkualitas sesuai standar
+                internasional.</p>
+            </div>
+          </div>
+          <!-- Card 2: Misi -->
+          <div class="approach-item reveal-up" style="transition-delay: 0.1s;">
+            <img src="media/pdf_image_424.jpeg" alt="Misi" class="approach-bg">
+            <div class="approach-content">
+              <div class="approach-icon">🚀</div>
+              <h4>Misi</h4>
+              <p>Improvisasi kualitas karyawan, divisi produksi, teknologi & manajemen yang berkesinambungan.</p>
+            </div>
+          </div>
+          <!-- Card 3: Nilai -->
+          <div class="approach-item reveal-up" style="transition-delay: 0.2s;">
+            <img src="media/pdf_image_316.jpeg" alt="Nilai" class="approach-bg">
+            <div class="approach-content">
+              <div class="approach-icon">💎</div>
+              <h4>Integritas & Moral Kerja</h4>
+              <p>Berasaskan kebenaran, menghormati perbedaan untuk sinergi yang berkesinambungan dan kuat.</p>
+            </div>
+          </div>
+          <!-- Card 4: Kepedulian -->
+          <div class="approach-item reveal-up" style="transition-delay: 0.3s;">
+            <img src="media/pdf_image_408.jpeg" alt="Kepedulian" class="approach-bg">
+            <div class="approach-content">
+              <div class="approach-icon">🌿</div>
+              <h4>Kepedulian Sosial</h4>
+              <p>Improvisasi berkesinambungan ke arah yang lebih baik di semua sektor, ramah lingkungan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS / PRODUCTS ==================== -->
+    <section class="section section-testimonials" id="portfolio">
+      <div class="container">
+        <div class="text-center reveal-up">
+          <p class="section-label">INOVASI KAMI</p>
+          <h2 class="section-title">Apa Kata Klien & Produk Unggulan</h2>
+        </div>
+
+        <div class="testimonial-grid">
+          <!-- Card 1 -->
+          <div class="test-card reveal-up" style="transition-delay: 0.1s;">
+            <div class="test-img-box">
+              <img src="media/pdf_image_325.jpeg" alt="Jotun Green Paints">
+            </div>
+            <div class="test-content">
+              <p class="test-quote">"Setiap detail cetakan katalog kami dikerjakan dengan presisi warna yang luar biasa,
+                mencerminkan standar kualitas global kami."</p>
+              <div class="test-info">
+                <p class="test-author">Departemen Pemasaran</p>
+                <p class="test-role">Jotun Indonesia</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="test-card reveal-up" style="transition-delay: 0.2s;">
+            <div class="test-img-box">
+              <img src="media/pdf_image_511.jpeg" alt="Premium Packaging">
+            </div>
+            <div class="test-content">
+              <p class="test-quote">"Solusi packaging yang ditawarkan PT Printwork tidak hanya melindungi produk, tetapi
+                juga meningkatkan nilai jual brand kami di pasar."</p>
+              <div class="test-info">
+                <p class="test-author">Manajer Produksi</p>
+                <p class="test-role">Client Korporat Premium</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="test-card reveal-up" style="transition-delay: 0.3s;">
+            <div class="test-img-box">
+              <img src="media/pdf_image_473.jpeg" alt="Annual Report Printing">
+            </div>
+            <div class="test-content">
+              <p class="test-quote">"Ketepatan waktu dan kualitas hasil cetakan Annual Report kami selalu terjaga selama
+                bertahun-tahun bekerja sama."</p>
+              <div class="test-info">
+                <p class="test-author">Divisi Komunikasi</p>
+                <p class="test-role">Sektor Perbankan & Asuransi</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== BRANDS ==================== -->
+    <section class="section section-brands-bento" id="clients">
+      <div class="container reveal-up">
+        <div class="brands-bento-card">
+          <div class="brands-text-center">
+            <h2>Klien yang Telah Bekerja Sama</h2>
+            <p class="desktop-only-p">Klien-klien kami cukup beragam dari berbagai latar belakang industri — dari
+              perusahaan korporat,
+              start-up,
+              hingga organisasi sosial.</p>
+          </div>
+          <div class="brands-3d-bg">
+            <div class="sponsor-spinner-layer">
+              <div class="sponsor-spinner sponsor-spinner-1">
+                <div class="sponsor-logo-wrapper astra-logo"
+                  style="top: 0%; left: 50%; transform: translate(-50%, -50%) rotateX(-55deg);">
+                  <img src="sponsors/Astra_International-Logo.wine.png" alt="Astra">
+                </div>
+                <div class="sponsor-logo-wrapper"
+                  style="top: 14.6%; left: 85.4%; transform: translate(-50%, -50%) rotateX(-55deg);">
+                  <img src="sponsors/lg-66101cfb31815-JOTUN.webp" alt="Jotun">
+                </div>
+                <div class="sponsor-logo-wrapper"
+                  style="top: 50%; left: 100%; transform: translate(-50%, -50%) rotateX(-55deg);">
+                  <img src="sponsors/Picsart_26-03-03_15-53-02-265.png" alt="Sponsor">
+                </div>
+                <div class="sponsor-logo-wrapper"
+                  style="top: 85.4%; left: 85.4%; transform: translate(-50%, -50%) rotateX(-55deg);">
+                  <img src="sponsors/Picsart_26-03-03_15-53-12-322.png" alt="Sponsor">
+                </div>
+                <div class="sponsor-logo-wrapper"
+                  style="top: 100%; left: 50%; transform: translate(-50%, -50%) rotateX(-55deg);">
+                  <img src="sponsors/Picsart_26-03-03_15-53-22-748.png" alt="Sponsor">
+                </div>
+                <div class="sponsor-logo-wrapper"
+                  style="top: 85.4%; left: 14.6%; transform: translate(-50%, -50%) rotateX(-55deg);">
+                  <img src="sponsors/Picsart_26-03-03_15-53-35-268.png" alt="Sponsor">
+                </div>
+                <div class="sponsor-logo-wrapper"
+                  style="top: 50%; left: 0%; transform: translate(-50%, -50%) rotateX(-55deg);">
+                  <img src="sponsors/Picsart_26-03-03_15-53-46-729.png" alt="Sponsor">
+                </div>
+                <div class="sponsor-logo-wrapper"
+                  style="top: 14.6%; left: 14.6%; transform: translate(-50%, -50%) rotateX(-55deg);">
+                  <img src="sponsors/Picsart_26-03-03_15-54-07-771.png" alt="Sponsor">
+                </div>
+              </div>
+            </div>
+            <div class="brands-gradient-overlay"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Logo Marquee -->
+      <div class="logo-marquee">
+        <div class="marquee-track">
+          <img src="sponsors/Astra_International-Logo.wine.png" alt="Astra">
+          <img src="sponsors/lg-66101cfb31815-JOTUN.webp" alt="Jotun">
+          <img src="sponsors/Picsart_26-03-03_15-53-02-265.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-12-322.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-22-748.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-35-268.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-46-729.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-54-07-771.png" alt="Sponsor">
+          <!-- Duplicate 1 -->
+          <img src="sponsors/Astra_International-Logo.wine.png" alt="Astra">
+          <img src="sponsors/lg-66101cfb31815-JOTUN.webp" alt="Jotun">
+          <img src="sponsors/Picsart_26-03-03_15-53-02-265.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-12-322.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-22-748.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-35-268.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-46-729.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-54-07-771.png" alt="Sponsor">
+          <!-- Duplicate 2 -->
+          <img src="sponsors/Astra_International-Logo.wine.png" alt="Astra">
+          <img src="sponsors/lg-66101cfb31815-JOTUN.webp" alt="Jotun">
+          <img src="sponsors/Picsart_26-03-03_15-53-02-265.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-12-322.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-22-748.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-35-268.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-53-46-729.png" alt="Sponsor">
+          <img src="sponsors/Picsart_26-03-03_15-54-07-771.png" alt="Sponsor">
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== DETAILS STATS (BENTO) ==================== -->
+    <section class="section section-stats-bento" id="facilities">
+      <div class="container">
+        <p class="section-label text-center reveal-up">ANGKA KAMI</p>
+        <h2 class="section-title text-center reveal-up">Detail yang Membedakan</h2>
+
+        <div class="grid-bento">
+          <!-- Box 1 (Tall Left) -->
+          <div class="bento-box bento-1 reveal-up">
+            <div class="bento-bg bento-concentric-1">
+              <div class="ring r1"></div>
+              <div class="ring r2"></div>
+              <div class="ring r3"></div>
+            </div>
+            <div class="bento-content-center">
+              <h3 class="bento-num">10+</h3>
+              <p class="bento-text">Tahun Pengalaman<br>di Industri Cetak</p>
+            </div>
+          </div>
+          <!-- Box 2 (Top Mid) -->
+          <div class="bento-box bento-2 reveal-up" style="transition-delay: 0.1s;">
+            <div class="bento-content-center">
+              <h3 class="bento-num">1,000+</h3>
+              <p class="bento-text">Klien yang<br>Mempercayai Kami</p>
+            </div>
+          </div>
+          <!-- Box 3 (Bottom Mid) -->
+          <div class="bento-box bento-3 reveal-up" style="transition-delay: 0.2s;">
+            <div class="bento-content-center">
+              <h3 class="bento-num">30+</h3>
+              <p class="bento-text">Mesin Produksi<br>& Finishing</p>
+            </div>
+          </div>
+          <!-- Box 4 (Tall Right) -->
+          <div class="bento-box bento-4 reveal-up" style="transition-delay: 0.3s;">
+            <div class="bento-bg bento-concentric-2">
+              <div class="arc a1"></div>
+              <div class="arc a2"></div>
+              <div class="arc a3"></div>
+            </div>
+            <div class="bento-content-top">
+              <h3 class="bento-num">5</h3>
+              <p class="bento-text">Mesin Cetak Heidelberg<br>Terintegrasi Penuh</p>
+            </div>
+          </div>
+          <!-- Box 5 (Wide Left Bottom) -->
+          <div class="bento-box bento-5 reveal-up" style="transition-delay: 0.4s;">
+            <div class="bento-bg bento-infinity"></div>
+            <div class="bento-content-top-left">
+              <h3 class="bento-text-large">Ekosistem Desain &<br>Manufaktur Terpadu</h3>
+              <p class="bento-subtext">Kustomisasi Tanpa Batas</p>
+            </div>
+          </div>
+          <!-- Box 6 (Square Mid Bottom) -->
+          <div class="bento-box bento-6 reveal-up" style="transition-delay: 0.5s;">
+            <div class="bento-bg bento-rectangles">
+              <div class="rect rt1"></div>
+              <div class="rect rt2"></div>
+              <div class="rect rt3"></div>
+            </div>
+            <div class="bento-content-center">
+              <h3 class="bento-num">ISO</h3>
+              <p class="bento-text">Standar Manajemen<br>& Produksi</p>
+            </div>
+          </div>
+          <!-- Box 7 (Square Right Bottom) -->
+          <div class="bento-box bento-7"
+            style="padding: 0; background: #000; overflow: hidden; border: 1px solid var(--accent);">
+            <video autoplay muted loop playsinline
+              style="width: 100%; height: 100%; object-fit: cover; display: block;">
+              <source src="logo/upscaled-video.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FOOTER / CTA ==================== -->
+    <section class="section section-cta" id="contact">
+      <canvas id="cta-particles"></canvas>
+      <div class="container text-center reveal-up">
+        <h2 class="cta-title">Saatnya Ide Anda Menjadi Nyata</h2>
+        <p class="cta-subtitle">"The art of giving the best, to create a strong belief" — Mari wujudkan bersama.</p>
+
+        <div class="cta-buttons">
+          <a href="pdf/Company%20Profile%20PT%20%20Printwork.pdf" download="Company Profile PT Printwork.pdf"
+            class="btn btn-outline">Unduh Company Profil</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <img src="logo.png" alt="PT Printwork" class="footer-logo">
+            <p class="footer-tagline">"The art of giving the best, to create a strong belief"</p>
+          </div>
+          <div class="footer-bottom">
+            <p>Jl. Cempaka Putih Timur 17 Komp. Taman Lagura Indah No. 24, Cempaka Putih, Jakarta 10510</p>
+            <p style="margin-top: 8px;">© 2026 PT Printwork Multigraph Indonesia. All Rights Reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div> <!-- END content-blur-wrapper -->
+
+  <script>
+    function toggleCart() {
+      // Redirect to shop for cart management if not on shop page
+      window.location.href = 'shop.html';
+    }
+  </script>
+  <!-- MOBILE BOTTOM NAV -->
+  <div class="mobile-bottom-nav">
+    <a href="index.html" class="mobile-nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+      <span>Home</span>
+    </a>
+    <a href="shop.html" class="mobile-nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 21h18"></path>
+        <path d="M3 7l2-4h14l2 4"></path>
+        <path d="M5 21V7"></path>
+        <path d="M19 21V7"></path>
+        <path d="M9 21V11h6v10"></path>
+      </svg>
+      <span>Shop</span>
+    </a>
+    <a href="about.html" class="mobile-nav-item active">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+      <span>About</span>
+    </a>
+  </div>
+  <script src="scrolly.js?v=7"></script>
+  <script src="script.js?v=7"></script>
+</body>
+
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop — PT Printwork Multigraph Indonesia</title>
+    <meta name="description"
+        content="Belanja packaging makanan custom berkualitas dari PT Printwork. Lunch box, food pail, standing pouch, dan lainnya. Min. order 500pcs.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="shop.css">
+</head>
+
+<body>
+
+    <div class="grid-bg"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <img src="logo.png" alt="PT Printwork" class="nav-logo-img">
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html" class="active">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+        <div class="nav-icons">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="nav-icon"
+                onclick="window.location.href='shop.html'" title="Toko">
+                <path d="M3 21h18"></path>
+                <path d="M3 7l2-4h14l2 4"></path>
+                <path d="M5 21V7"></path>
+                <path d="M19 21V7"></path>
+                <path d="M9 21V11h6v10"></path>
+            </svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="nav-icon"
+                onclick="window.location.href='admin-login.html'" title="Admin">
+                <path
+                    d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="nav-cart-wrapper" style="position:relative; cursor:pointer;" onclick="toggleCart()"
+                title="Keranjang">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="nav-icon">
+                    <path
+                        d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22ZM20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22ZM1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="cart-count" id="cartCount"
+                    style="position:absolute; top:-8px; right:-12px; background:var(--lime); color:var(--navy);">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <canvas id="neural-canvas"></canvas>
+        <div class="hero-tag"><span class="dot"></span> Premium Food Packaging</div>
+        <h1 class="hero-title">
+            <span>PACK</span>
+            <span class="line-accent">SMARTER.</span>
+            <span class="line-outline">SELL MORE.</span>
+        </h1>
+        <p class="hero-subtitle">Custom food packaging yang membuat brand Anda tak terlupakan. Dari lunch box hingga
+            standing pouch — tercipta untuk kesan premium.</p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-num">500+</div>
+                <div class="stat-label">Min. Order</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">24+</div>
+                <div class="stat-label">Produk</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Custom</div>
+            </div>
+        </div>
+        <div class="hero-glow"></div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+        <div class="marquee-track">
+            <div class="marquee-item"><span class="sep">◆</span> Lunch Box Selip</div>
+            <div class="marquee-item"><span class="sep">◆</span> Lunch Box Yamie</div>
+            <div class="marquee-item"><span class="sep">◆</span> Food Pail</div>
+            <div class="marquee-item"><span class="sep">◆</span> Burger Box</div>
+            <div class="marquee-item"><span class="sep">◆</span> Dus Fried Chicken</div>
+            <div class="marquee-item"><span class="sep">◆</span> Dus Nasi</div>
+            <div class="marquee-item"><span class="sep">◆</span> Food Tray</div>
+            <div class="marquee-item"><span class="sep">◆</span> Wrapping Paper</div>
+            <div class="marquee-item"><span class="sep">◆</span> Standing Pouch</div>
+            <div class="marquee-item"><span class="sep">◆</span> Dus Martabak</div>
+            <div class="marquee-item"><span class="sep">◆</span> Kentang Goreng</div>
+            <div class="marquee-item"><span class="sep">◆</span> Lunch Box Selip</div>
+            <div class="marquee-item"><span class="sep">◆</span> Lunch Box Yamie</div>
+            <div class="marquee-item"><span class="sep">◆</span> Food Pail</div>
+            <div class="marquee-item"><span class="sep">◆</span> Burger Box</div>
+            <div class="marquee-item"><span class="sep">◆</span> Dus Fried Chicken</div>
+            <div class="marquee-item"><span class="sep">◆</span> Dus Nasi</div>
+            <div class="marquee-item"><span class="sep">◆</span> Food Tray</div>
+            <div class="marquee-item"><span class="sep">◆</span> Wrapping Paper</div>
+            <div class="marquee-item"><span class="sep">◆</span> Standing Pouch</div>
+            <div class="marquee-item"><span class="sep">◆</span> Dus Martabak</div>
+            <div class="marquee-item"><span class="sep">◆</span> Kentang Goreng</div>
+        </div>
+    </div>
+
+    <!-- SHOP -->
+    <section class="shop-section">
+        <div class="section-header reveal">
+            <div>
+                <div class="section-label">Katalog Kami</div>
+                <h2 class="section-title">Semua Produk</h2>
+            </div>
+        </div>
+
+        <div class="filter-bar reveal">
+            <button class="filter-btn active" onclick="filterProducts('all', this)">Semua</button>
+            <button class="filter-btn" onclick="filterProducts('lunchbox', this)">Lunch Box</button>
+            <button class="filter-btn" onclick="filterProducts('pail', this)">Food Pail</button>
+            <button class="filter-btn" onclick="filterProducts('chicken', this)">Fried Chicken</button>
+            <button class="filter-btn" onclick="filterProducts('nasi', this)">Dus Nasi</button>
+            <button class="filter-btn" onclick="filterProducts('martabak', this)">Martabak</button>
+            <button class="filter-btn" onclick="filterProducts('paper', this)">Paper & Pouch</button>
+            <button class="filter-btn" onclick="filterProducts('other', this)">Lainnya</button>
+        </div>
+
+        <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="footer-strip">
+        <div>© 2026 <strong>PT Printwork Multigraph Indonesia</strong> — The art of giving the best</div>
+        <div>Min. order 500pcs · Harga belum termasuk biaya desain</div>
+    </div>
+
+    <!-- PRODUCT MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" id="modal">
+            <button class="modal-close" onclick="closeModalDirect()">✕</button>
+            <div class="modal-grid">
+                <div>
+                    <div class="modal-image" id="modalImage">📦</div>
+                </div>
+                <div>
+                    <div class="modal-label" id="modalCat">Category</div>
+                    <div class="modal-name" id="modalName">Product Name</div>
+                    <div class="modal-desc" id="modalDesc">Description</div>
+
+                    <div class="option-group" id="sizeGroup">
+                        <div class="option-label">Size</div>
+                        <div class="option-chips" id="sizeChips"></div>
+                    </div>
+
+                    <div class="option-group" id="materialGroup">
+                        <div class="option-label">Material</div>
+                        <div class="option-chips" id="materialChips"></div>
+                    </div>
+
+                    <div class="option-group" id="printGroup">
+                        <div class="option-label">Print Type</div>
+                        <div class="option-chips" id="printChips"></div>
+                    </div>
+
+                    <div class="option-group" id="laminasiGroup">
+                        <div class="option-label">Laminasi</div>
+                        <div class="option-chips" id="laminasiChips"></div>
+                    </div>
+
+                    <div class="qty-row">
+                        <div>
+                            <div class="option-label" style="margin-bottom:8px;">Quantity</div>
+                            <div class="qty-ctrl">
+                                <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                                <div class="qty-val" id="qtyVal">500</div>
+                                <button class="qty-btn" onclick="changeQty(1)">+</button>
+                            </div>
+                        </div>
+                        <div class="qty-hint" id="qtyHint">Min. order 500 pcs</div>
+                    </div>
+
+                    <div class="modal-price-row">
+                        <div>
+                            <div class="modal-price-label">Estimasi Harga</div>
+                            <div class="modal-price-total" id="modalPriceTotal">Rp 0</div>
+                            <div class="modal-price-unit" id="modalPriceUnit">Rp 0 / pcs</div>
+                        </div>
+                        <div
+                            style="text-align:right; font-size:11px; color:var(--muted); max-width:130px; line-height:1.6;">
+                            Harga dapat berubah<br>Hubungi CS untuk penawaran
+                        </div>
+                    </div>
+
+                    <button class="add-to-cart-btn" onclick="addToCart()">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+                            viewBox="0 0 24 24">
+                            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <path d="M16 10a4 4 0 01-8 0" />
+                        </svg>
+                        Tambah ke Keranjang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT INFO MODAL -->
+    <div class="modal-overlay" id="checkoutModalOverlay">
+        <div class="modal checkout-modal">
+            <button class="modal-close" onclick="closeCheckoutModal()">✕</button>
+            <div class="checkout-modal-content">
+                <div class="modal-label">Informasi Pemesan</div>
+                <h3 class="modal-name">Satu langkah lagi...</h3>
+                <p class="modal-desc">Masukkan detail kontak Anda untuk pengiriman invoice dan update status pesanan.
+                </p>
+
+                <div class="form-group">
+                    <label class="option-label">Nama Lengkap</label>
+                    <input type="text" id="customerName" class="form-input" placeholder="Masukkan nama Anda" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="option-label">Email Pelanggan (Opsional)</label>
+                    <input type="email" id="customerEmail" class="form-input" placeholder="contoh@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="option-label">Nomor WhatsApp</label>
+                    <input type="tel" id="customerWA" class="form-input" placeholder="Contoh: 081234567890" required>
+                </div>
+
+                <div class="modal-price-row"
+                    style="margin-top:20px; padding:15px; background:rgba(255,255,255,0.05); border-radius:12px;">
+                    <div>
+                        <div class="modal-price-label">Total Pembayaran</div>
+                        <div class="modal-price-total" id="checkoutDisplayTotal">Rp 0</div>
+                    </div>
+                </div>
+
+                <button class="add-to-cart-btn" id="confirmCheckoutBtn" onclick="confirmCheckout()"
+                    style="margin-top:20px;">
+                    Mengarahkan ke Pembayaran... →
+                </button>
+                <div style="text-align: center; margin-top: 12px; font-size: 11px; color: var(--text-dim);">
+                    Anda akan diarahkan ke halaman pembayaran aman (GoPay, QRIS, Transfer Bank).
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModalOverlay">
+        <div class="modal success-modal">
+            <div class="success-icon">✓</div>
+            <h3 class="modal-name">Pesanan Berhasil! 🎉</h3>
+            <p class="modal-desc" style="text-align:center;">Pembayaran Anda telah kami terima. Detail pesanan sedang
+                dikirim ke email Anda.</p>
+            <p class="modal-desc" style="text-align:center; font-size:12px; margin-top:10px;">Tim kami akan segera
+                menghubungi Anda via WhatsApp demi kenyamanan transaksi.</p>
+            <button class="add-to-cart-btn" onclick="closeSuccessModal()" style="margin-top:20px;">
+                Kembali Belanja
+            </button>
+        </div>
+    </div>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCartOnOverlay(event)">
+        <div class="cart-sidebar" id="cartSidebar">
+            <div class="cart-header">
+                <div class="cart-title">Keranjang</div>
+                <button class="cart-close-btn" onclick="toggleCart()">✕</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <div class="cart-empty-text">Belum ada produk.<br>Mulai belanja sekarang!</div>
+                </div>
+            </div>
+            <div class="cart-footer" id="cartFooter" style="display:none;">
+                <div class="cart-total-row">
+                    <span class="cart-total-label">Total Est.</span>
+                    <span class="cart-total-val" id="cartTotal">Rp 0</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn" onclick="checkout()">Secure Checkout →</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">✓ Ditambahkan!</div>
+    <script>
+    </script>
+    <!-- MOBILE BOTTOM NAV -->
+    <div class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="shop.html" class="mobile-nav-item active">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21h18"></path>
+                <path d="M3 7l2-4h14l2 4"></path>
+                <path d="M5 21V7"></path>
+                <path d="M19 21V7"></path>
+                <path d="M9 21V11h6v10"></path>
+            </svg>
+            <span>Shop</span>
+        </a>
+        <a href="about.html" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>About</span>
+        </a>
+    </div>
+    <script src="neural-bg.js"></script>
+    <script src="shop.js"></script>
+</body>
+
+</html>

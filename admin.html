@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — PT Printwork</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0D1B3E;
+            --navy-dark: #070F26;
+            --lime: #98CA3F;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #FFFFFF;
+            --text-dim: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Background Chill - Premium Abstract Mode */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('media/abstract_premium_bg.png');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+            filter: contrast(1.2) brightness(1.2) saturate(1.1);
+            opacity: 0.35;
+            background-color: var(--navy-dark);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--navy-dark);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: rgba(13, 27, 62, 0.4);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 60px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .sidebar-logo img {
+            height: 90px;
+        }
+
+        .sidebar-logo span {
+            font-family: 'Syne';
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(152, 202, 63, 0.1);
+            color: var(--lime);
+        }
+
+        .nav-link.active {
+            font-weight: 700;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 280px;
+            padding: 40px 60px;
+            max-width: calc(100vw - 280px);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .header-left h1 {
+            font-family: 'Syne';
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .header-left p {
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 8px 16px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--lime);
+        }
+
+        /* Dashboard Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 32px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(152, 202, 63, 0.3);
+            background: rgba(152, 202, 63, 0.02);
+        }
+
+        .stat-card h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+        }
+
+        .stat-val {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--lime);
+            font-family: 'Syne';
+        }
+
+        /* Tables & Lists */
+        .content-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-family: 'Syne';
+            font-size: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        td {
+            padding: 16px;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .b-completed {
+            background: rgba(152, 202, 63, 0.1);
+            color: var(--lime);
+        }
+
+        .b-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: #FFC107;
+        }
+
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sidebar {
+                width: 80px;
+                padding: 40px 10px;
+            }
+
+            .sidebar span,
+            .sidebar p {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 80px;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <a href="index.html" class="sidebar-logo">
+            <img src="logo.png" alt="Logo">
+        </a>
+        <nav class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link"><span>Home</span></a></li>
+            <li class="nav-item"><a href="shop.html" class="nav-link"><span>Products</span></a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link"><span>About Us</span></a></li>
+            <li class="nav-item"><a href="admin.html" class="nav-link active"><span>Admin Panel</span></a></li>
+        </nav>
+        <div style="color: var(--text-dim); font-size: 11px; padding: 0 16px;">
+            <p>© 2026 Admin v2.0</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <div class="header-left">
+                <h1>Overview</h1>
+                <p>Welcome back, Admin. Here's what's happening today.</p>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar"></div>
+                <div style="font-size: 14px; font-weight: 600;">System Admin</div>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Orders</h3>
+                <div class="stat-val" id="stat-orders">...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Revenue</h3>
+                <div class="stat-val" id="stat-revenue">...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Clients</h3>
+                <div class="stat-val" id="stat-clients">...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Pending</h3>
+                <div class="stat-val" id="stat-pending">...</div>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <div class="card-header">
+                <h2 class="card-title">Recent Transactions</h2>
+                <button onclick="fetchOrders()"
+                    style="background: none; border: none; color: var(--lime); font-size: 13px; cursor: pointer; font-weight: 600;">Refresh
+                    Data</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>WhatsApp</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-table-body">
+                    <tr>
+                        <td colspan="9" style="text-align:center; padding: 40px; color: var(--text-dim);">Loading
+                            transactions...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        async function fetchOrders() {
+            const tbody = document.getElementById('orders-table-body');
+            try {
+                const response = await fetch('/api/orders');
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                tbody.innerHTML = '';
+
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 20px;">No transactions found.</td></tr>';
+
+                    document.getElementById('stat-orders').textContent = '0';
+                    document.getElementById('stat-revenue').textContent = 'IDR 0';
+                    document.getElementById('stat-clients').textContent = '0';
+                    document.getElementById('stat-pending').textContent = '0';
+                    return;
+                }
+
+                // --- Calculate Overview Stats ---
+                document.getElementById('stat-orders').textContent = data.length.toLocaleString('id-ID');
+
+                const totalRevenue = data.filter(o => o.status === 'paid').reduce((sum, o) => sum + (o.amount || 0), 0);
+                let revenueStr = 'IDR 0';
+                if (totalRevenue >= 1000000000) {
+                    revenueStr = `IDR ${(totalRevenue / 1000000000).toFixed(1)} Miliar`;
+                } else if (totalRevenue >= 1000000) {
+                    revenueStr = `IDR ${(totalRevenue / 1000000).toFixed(1)} Jt`;
+                } else {
+                    revenueStr = `IDR ${totalRevenue.toLocaleString('id-ID')}`;
+                }
+                document.getElementById('stat-revenue').textContent = revenueStr;
+
+                const uniqueClients = new Set(data.map(o => o.customer_email).filter(Boolean)).size;
+                document.getElementById('stat-clients').textContent = uniqueClients.toLocaleString('id-ID');
+
+                const pendingOrders = data.filter(o => o.status !== 'paid').length;
+                document.getElementById('stat-pending').textContent = pendingOrders.toLocaleString('id-ID');
+                // --------------------------------
+
+
+                data.forEach(order => {
+                    const date = new Date(order.created_at).toLocaleDateString('id-ID', {
+                        day: '2-digit', month: 'short', year: 'numeric'
+                    });
+
+                    const row = `
+                        <tr>
+                            <td style="font-weight:600;">#${order.xendit_invoice_id.slice(-8).toUpperCase()}</td>
+                            <td>${order.customer_name || order.customor_name || '<span style="color:rgba(255,255,255,0.2)">-</span>'}</td>
+                            <td>${order.customer_email}</td>
+                            <td>${order.customer_wa || '<span style="color:rgba(255,255,255,0.2)">-</span>'}</td>
+                            <td>IDR ${(order.amount).toLocaleString('id-ID')}</td>
+                            <td><span class="badge ${order.status === 'paid' ? 'b-completed' : 'b-pending'}">${order.status}</span></td>
+                            <td style="color: var(--text-dim); font-size: 12px;">${date}</td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+            } catch (err) {
+                console.error('Fetch Error:', err);
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: #ff4757; padding: 20px;">Error: ${err.message}</td></tr>`;
+            }
+        }
+
+        // Initial fetch
+        fetchOrders();
+    </script>
+
+</body>
+
+</html>
