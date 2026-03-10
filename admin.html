@@ -8,6 +8,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap"
         rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png?v=2">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+    <link rel="shortcut icon" href="favicon.png?v=2">
     <style>
         :root {
             --navy: #0D1B3E;
@@ -279,6 +282,112 @@
                 padding: 30px;
             }
         }
+
+        /* ── CUSTOM PREMIUM MODAL ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(7, 15, 38, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-box {
+            background: rgba(27, 42, 74, 0.8);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-family: 'Syne';
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--lime);
+        }
+
+        .modal-body {
+            font-size: 14px;
+            color: var(--text-dim);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .modal-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: white;
+            font-family: inherit;
+            font-size: 15px;
+            margin-bottom: 30px;
+            outline: none;
+            text-align: center;
+        }
+
+        .modal-input:focus {
+            border-color: var(--lime);
+            background: rgba(152, 202, 63, 0.05);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            min-width: 100px;
+        }
+
+        .modal-btn-primary {
+            background: var(--lime);
+            color: var(--navy-dark);
+        }
+
+        .modal-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(152, 202, 63, 0.3);
+        }
+
+        .modal-btn-outline {
+            background: transparent;
+            border-color: var(--glass-border);
+            color: white;
+        }
+
+        .modal-btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
     </style>
 </head>
 
@@ -332,10 +441,40 @@
 
         <section class="content-card">
             <div class="card-header">
-                <h2 class="card-title">Recent Transactions</h2>
-                <button onclick="fetchOrders()"
-                    style="background: none; border: none; color: var(--lime); font-size: 13px; cursor: pointer; font-weight: 600;">Refresh
-                    Data</button>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <h2 class="card-title">Recent Transactions</h2>
+                    <!-- Filters -->
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <select id="filter-month" onchange="applyFilters()"
+                            style="background: var(--glass); border: 1px solid var(--glass-border); color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; outline: none;">
+                            <option value="all">All Months</option>
+                            <option value="0">January</option>
+                            <option value="1">February</option>
+                            <option value="2">March</option>
+                            <option value="3">April</option>
+                            <option value="4">May</option>
+                            <option value="5">June</option>
+                            <option value="6">July</option>
+                            <option value="7">August</option>
+                            <option value="8">September</option>
+                            <option value="9">October</option>
+                            <option value="10">November</option>
+                            <option value="11">December</option>
+                        </select>
+                        <input type="date" id="filter-date" onchange="applyFilters()"
+                            style="background: var(--glass); border: 1px solid var(--glass-border); color: white; padding: 6px 12px; border-radius: 8px; font-size: 13px; outline: none; color-scheme: dark;">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <!-- Hidden Long Press Button to Clear Table -->
+                    <button id="clear-orders-btn"
+                        style="background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.2); color: #ff4757; font-size: 11px; cursor: pointer; font-weight: 700; padding: 6px 14px; border-radius: 8px; display: none;">
+                        Clear All Data
+                    </button>
+                    <button onclick="fetchOrders()"
+                        style="background: none; border: none; color: var(--lime); font-size: 13px; cursor: pointer; font-weight: 600;">Refresh
+                        Data</button>
+                </div>
             </div>
             <table>
                 <thead>
@@ -359,7 +498,23 @@
         </section>
     </main>
 
+    <!-- CUSTOM MODAL HTML -->
+    <div id="custom-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 id="modal-title" class="modal-title">Konfirmasi</h3>
+            <p id="modal-body" class="modal-body">Pesan konfirmasi anda di sini.</p>
+            <input type="password" id="modal-input" class="modal-input" placeholder="Enter password..."
+                style="display: none;">
+            <div class="modal-actions">
+                <button id="modal-cancel" class="modal-btn modal-btn-outline">Cancel</button>
+                <button id="modal-ok" class="modal-btn modal-btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        let allOrders = [];
+
         async function fetchOrders() {
             const tbody = document.getElementById('orders-table-body');
             try {
@@ -367,42 +522,37 @@
                 const data = await response.json();
 
                 if (data.error) throw new Error(data.error);
+                allOrders = data;
+                applyFilters();
+            } catch (err) {
+                console.error('Fetch Error:', err);
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: #ff4757; padding: 20px;">Error: ${err.message}</td></tr>`;
+            }
+        }
 
-                tbody.innerHTML = '';
+        function applyFilters() {
+            const tbody = document.getElementById('orders-table-body');
+            const monthFilter = document.getElementById('filter-month').value;
+            const dateFilter = document.getElementById('filter-date').value;
 
-                if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 20px;">No transactions found.</td></tr>';
+            let filtered = [...allOrders];
 
-                    document.getElementById('stat-orders').textContent = '0';
-                    document.getElementById('stat-revenue').textContent = 'IDR 0';
-                    document.getElementById('stat-clients').textContent = '0';
-                    document.getElementById('stat-pending').textContent = '0';
-                    return;
-                }
+            // Filter by Month
+            if (monthFilter !== 'all') {
+                filtered = filtered.filter(o => new Date(o.created_at).getMonth() === parseInt(monthFilter));
+            }
 
-                // --- Calculate Overview Stats ---
-                document.getElementById('stat-orders').textContent = data.length.toLocaleString('id-ID');
+            // Filter by Date
+            if (dateFilter) {
+                filtered = filtered.filter(o => new Date(o.created_at).toISOString().split('T')[0] === dateFilter);
+            }
 
-                const totalRevenue = data.filter(o => o.status === 'paid').reduce((sum, o) => sum + (o.amount || 0), 0);
-                let revenueStr = 'IDR 0';
-                if (totalRevenue >= 1000000000) {
-                    revenueStr = `IDR ${(totalRevenue / 1000000000).toFixed(1)} Miliar`;
-                } else if (totalRevenue >= 1000000) {
-                    revenueStr = `IDR ${(totalRevenue / 1000000).toFixed(1)} Jt`;
-                } else {
-                    revenueStr = `IDR ${totalRevenue.toLocaleString('id-ID')}`;
-                }
-                document.getElementById('stat-revenue').textContent = revenueStr;
-
-                const uniqueClients = new Set(data.map(o => o.customer_email).filter(Boolean)).size;
-                document.getElementById('stat-clients').textContent = uniqueClients.toLocaleString('id-ID');
-
-                const pendingOrders = data.filter(o => o.status !== 'paid').length;
-                document.getElementById('stat-pending').textContent = pendingOrders.toLocaleString('id-ID');
-                // --------------------------------
-
-
-                data.forEach(order => {
+            // Update Table
+            tbody.innerHTML = '';
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 40px; color: var(--text-dim);">No transactions match your filters.</td></tr>';
+            } else {
+                filtered.forEach(order => {
                     const date = new Date(order.created_at).toLocaleDateString('id-ID', {
                         day: '2-digit', month: 'short', year: 'numeric'
                     });
@@ -420,15 +570,132 @@
                     `;
                     tbody.insertAdjacentHTML('beforeend', row);
                 });
-            } catch (err) {
-                console.error('Fetch Error:', err);
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: #ff4757; padding: 20px;">Error: ${err.message}</td></tr>`;
             }
+
+            // Update Overview Stats with Filtered Results
+            updateStats(filtered);
         }
+
+        function updateStats(data) {
+            document.getElementById('stat-orders').textContent = data.length.toLocaleString('id-ID');
+
+            const totalRevenue = data.filter(o => o.status === 'paid').reduce((sum, o) => sum + (o.amount || 0), 0);
+            let revenueStr = 'IDR 0';
+            if (totalRevenue >= 1000000000) {
+                revenueStr = `IDR ${(totalRevenue / 1000000000).toFixed(1)} Miliar`;
+            } else if (totalRevenue >= 1000000) {
+                revenueStr = `IDR ${(totalRevenue / 1000000).toFixed(1)} Jt`;
+            } else {
+                revenueStr = `IDR ${totalRevenue.toLocaleString('id-ID')}`;
+            }
+            document.getElementById('stat-revenue').textContent = revenueStr;
+
+            const uniqueClients = new Set(data.map(o => o.customer_email).filter(Boolean)).size;
+            document.getElementById('stat-clients').textContent = uniqueClients.toLocaleString('id-ID');
+
+            const pendingOrders = data.filter(o => o.status !== 'paid').length;
+            document.getElementById('stat-pending').textContent = pendingOrders.toLocaleString('id-ID');
+        }
+
+        // --- Hidden Clear Feature ---
+        const refreshBtn = document.querySelector('button[onclick="fetchOrders()"]');
+        const clearBtn = document.getElementById('clear-orders-btn');
+        let timer;
+
+        refreshBtn.addEventListener('mousedown', () => {
+            timer = setTimeout(() => {
+                clearBtn.style.display = 'block';
+            }, 3000); // Press for 3 seconds to reveal
+        });
+
+        refreshBtn.addEventListener('mouseup', () => clearTimeout(timer));
+        refreshBtn.addEventListener('mouseleave', () => clearTimeout(timer));
+
+        // ── CUSTOM MODAL SYSTEM ──
+        const modal = document.getElementById('custom-modal');
+        const mTitle = document.getElementById('modal-title');
+        const mBody = document.getElementById('modal-body');
+        const mInput = document.getElementById('modal-input');
+        const mOk = document.getElementById('modal-ok');
+        const mCancel = document.getElementById('modal-cancel');
+
+        function showModal({ title, body, hasInput, okText, cancelText }) {
+            return new Promise((resolve) => {
+                mTitle.textContent = title || 'Konfirmasi';
+                mBody.textContent = body || '';
+                mInput.style.display = hasInput ? 'block' : 'none';
+                mInput.value = '';
+                mOk.textContent = okText || 'OK';
+                mCancel.textContent = cancelText || 'Cancel';
+                mCancel.style.display = cancelText ? 'block' : 'none';
+
+                modal.classList.add('active');
+
+                const cleanup = (val) => {
+                    modal.classList.remove('active');
+                    mOk.removeEventListener('click', onOk);
+                    mCancel.removeEventListener('click', onCancel);
+                    resolve(val);
+                };
+
+                const onOk = () => cleanup(hasInput ? mInput.value : true);
+                const onCancel = () => cleanup(null);
+
+                mOk.addEventListener('click', onOk);
+                mCancel.addEventListener('click', onCancel);
+            });
+        }
+
+        clearBtn.addEventListener('click', async () => {
+            const confirmed = await showModal({
+                title: 'BAHAYA ⚠️',
+                body: 'Anda yakin ingin menghapus SEMUA data transaksi secara permanen? Tindakan ini tidak bisa dibatalkan.',
+                okText: 'Lanjut',
+                cancelText: 'Batal'
+            });
+
+            if (confirmed) {
+                const password = await showModal({
+                    title: 'Verifikasi Kemanan',
+                    body: 'Masukkan Password Admin untuk mengonfirmasi penghapusan data:',
+                    hasInput: true,
+                    okText: 'Hapus Sekarang',
+                    cancelText: 'Kembali'
+                });
+
+                if (password) {
+                    try {
+                        const response = await fetch('/api/clear-orders', {
+                            method: 'POST',
+                            headers: { 'x-admin-password': password }
+                        });
+                        const resData = await response.json();
+                        if (resData.success) {
+                            await showModal({
+                                title: 'Berhasil',
+                                body: 'Database transaksi telah dibersihkan sepenuhnya.',
+                                okText: 'Selesai'
+                            });
+                            fetchOrders();
+                            clearBtn.style.display = 'none';
+                        } else {
+                            await showModal({
+                                title: 'Gagal',
+                                body: 'Verifikasi Gagal: ' + (resData.error || 'Password salah'),
+                                okText: 'Coba Lagi'
+                            });
+                        }
+                    } catch (err) {
+                        await showModal({ title: 'Error', body: err.message, okText: 'Tutup' });
+                    }
+                }
+            }
+        });
 
         // Initial fetch
         fetchOrders();
     </script>
+
 
 </body>
 

@@ -1,6 +1,9 @@
 {
     "version": 2,
     "name": "printwork-web",
+    "regions": [
+        "sin1"
+    ],
     "builds": [
         {
             "src": "server.js",

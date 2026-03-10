@@ -176,6 +176,27 @@ app.get('/api/orders', async (req, res) => {
     res.json(data);
 });
 
+// 4. Clear Orders (Hidden Admin Feature)
+app.post('/api/clear-orders', async (req, res) => {
+    try {
+        const password = req.headers['x-admin-password'];
+        if (!password || password !== 'Printwork180308') {
+            return res.status(403).json({ error: 'Unauthorized' });
+        }
+
+        const { error } = await supabase
+            .from('orders')
+            .delete()
+            .neq('id', 0); // Delete all rows
+
+        if (error) throw error;
+        res.json({ success: true, message: 'All orders cleared' });
+    } catch (err) {
+        console.error('Clear Orders Error:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Serve the admin page
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
@@ -184,4 +205,6 @@ app.get('/admin', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server optimized with Express running at http://localhost:${PORT}/`);
 });
+
+module.exports = app;
 

@@ -12,6 +12,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
     rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png?v=2">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+  <link rel="shortcut icon" href="favicon.png?v=2">
+  <link rel="preload" as="video" href="media/bg_4k_fast.mp4" type="video/mp4">
   <style>
     :root {
       --navy: #0D1B3E;
@@ -497,8 +501,8 @@
 
     .browse-home-wrap {
       position: fixed;
-      bottom: 32px;
-      left: 38%;
+      bottom: 40px;
+      left: 42%;
       transform: translateX(-50%);
       z-index: 1001;
       animation: fadeUp 1s 0.5s ease both;
@@ -542,14 +546,14 @@
 
 <body class="theme-dark">
 
-  <video autoplay loop muted playsinline id="bg-video" poster="media/abstract_premium_bg.png">
-    <source src="media/bg_4k_optimized.mp4?v=1" type="video/mp4">
+  <video autoplay loop muted playsinline id="bg-video" poster="media/bg_home_poster.png" preload="auto">
+    <source src="media/bg_4k_fast.mp4" type="video/mp4">
   </video>
 
   <!-- NAVIGATION -->
   <nav>
     <a href="index.html" class="nav-logo">
-      <img src="logo.png" alt="PT Printwork" class="nav-logo-img">
+      <img src="logo.png" alt="PT Printwork" class="nav-logo-img" loading="lazy" decoding="async">
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="active">Home</a></li>
@@ -632,6 +636,13 @@
       // Redirect to shop for cart management if not on shop page
       window.location.href = 'shop.html';
     }
+    // Force Video Play
+    document.addEventListener('DOMContentLoaded', () => {
+      const v = document.getElementById('bg-video');
+      v.play().catch(() => {
+        // Handle autoplay block if necessary
+      });
+    });
   </script>
 </body>
 
