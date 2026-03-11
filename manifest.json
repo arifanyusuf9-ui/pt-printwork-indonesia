@@ -1,0 +1,21 @@
+{
+  "name": "PT Printwork Multigraph Indonesia",
+  "short_name": "Printwork",
+  "description": "Solusi percetakan dan packaging premium di Jakarta.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0D1B3E",
+  "theme_color": "#7AB818",
+  "icons": [
+    {
+      "src": "site-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "site-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
